@@ -76,6 +76,7 @@
       border: none;
       border-radius: 4px;
       font-weight: bold;
+      margin: 2px;
     }
 
     .mode-toggle {
@@ -110,10 +111,22 @@
       height: 100px;
       border-radius: 50%;
       background-color: white;
-      border: 5px solid red;
+      border: 8px solid #bc002d; /* Japanese flag red */
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .speak-btn {
+      background-color: #4CAF50;
+      color: white;
+      padding: 4px 8px;
+      font-size: 0.8em;
+    }
+
+    .speak-btn:hover {
+      background-color: #45a049;
     }
   </style>
 </head>
@@ -138,6 +151,7 @@
         <th>Group</th>
         <th>Example (JP)</th>
         <th>Example (EN)</th>
+        <th>Speak</th>
       </tr>
     </thead>
     <tbody id="verbBody">
@@ -204,6 +218,19 @@
       }
       
       return result;
+    }
+
+    // Text-to-speech function
+    function speakJapanese(text) {
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance();
+        utterance.text = text;
+        utterance.lang = 'ja-JP';
+        utterance.rate = 0.8;
+        speechSynthesis.speak(utterance);
+      } else {
+        alert('Text-to-speech is not supported in your browser');
+      }
     }
 
     const verbs = [
@@ -280,6 +307,10 @@
             <td>${v.group}</td>
             <td>${v.jp}</td>
             <td>${v.en}</td>
+            <td>
+              <button class="speak-btn" onclick="speakJapanese('${v.verb}')">Verb</button>
+              <button class="speak-btn" onclick="speakJapanese('${v.jp.replace(/"/g, '\\"')}')">Example</button>
+            </td>
           </tr>
         `;
         tbody.innerHTML += row;
@@ -318,6 +349,9 @@
         behavior: "smooth"
       });
     });
+
+    // Make speakJapanese function available globally
+    window.speakJapanese = speakJapanese;
 
     renderTable(verbs);
   </script>

@@ -60,6 +60,16 @@
       background-color: var(--header-bg);
     }
 
+    .reading-container {
+      line-height: 1.4;
+    }
+
+    .romaji {
+      font-size: 0.9em;
+      color: #aaa;
+      font-style: italic;
+    }
+
     button {
       padding: 8px 16px;
       cursor: pointer;
@@ -142,6 +152,60 @@
   </footer>
 
   <script>
+    // Function to convert hiragana to romaji (simplified version)
+    function toRomaji(hiragana) {
+      const romajiMap = {
+        'あ': 'a', 'い': 'i', 'う': 'u', 'え': 'e', 'お': 'o',
+        'か': 'ka', 'き': 'ki', 'く': 'ku', 'け': 'ke', 'こ': 'ko',
+        'さ': 'sa', 'し': 'shi', 'す': 'su', 'せ': 'se', 'そ': 'so',
+        'た': 'ta', 'ち': 'chi', 'つ': 'tsu', 'て': 'te', 'と': 'to',
+        'な': 'na', 'に': 'ni', 'ぬ': 'nu', 'ね': 'ne', 'の': 'no',
+        'は': 'ha', 'ひ': 'hi', 'ふ': 'fu', 'へ': 'he', 'ほ': 'ho',
+        'ま': 'ma', 'み': 'mi', 'む': 'mu', 'め': 'me', 'も': 'mo',
+        'や': 'ya', 'ゆ': 'yu', 'よ': 'yo',
+        'ら': 'ra', 'り': 'ri', 'る': 'ru', 'れ': 're', 'ろ': 'ro',
+        'わ': 'wa', 'を': 'wo', 'ん': 'n',
+        'が': 'ga', 'ぎ': 'gi', 'ぐ': 'gu', 'げ': 'ge', 'ご': 'go',
+        'ざ': 'za', 'じ': 'ji', 'ず': 'zu', 'ぜ': 'ze', 'ぞ': 'zo',
+        'だ': 'da', 'ぢ': 'ji', 'づ': 'zu', 'で': 'de', 'ど': 'do',
+        'ば': 'ba', 'び': 'bi', 'ぶ': 'bu', 'べ': 'be', 'ぼ': 'bo',
+        'ぱ': 'pa', 'ぴ': 'pi', 'ぷ': 'pu', 'ぺ': 'pe', 'ぽ': 'po',
+        'きゃ': 'kya', 'きゅ': 'kyu', 'きょ': 'kyo',
+        'しゃ': 'sha', 'しゅ': 'shu', 'しょ': 'sho',
+        'ちゃ': 'cha', 'ちゅ': 'chu', 'ちょ': 'cho',
+        'にゃ': 'nya', 'にゅ': 'nyu', 'にょ': 'nyo',
+        'ひゃ': 'hya', 'ひゅ': 'hyu', 'ひょ': 'hyo',
+        'みゃ': 'mya', 'みゅ': 'myu', 'みょ': 'myo',
+        'りゃ': 'rya', 'りゅ': 'ryu', 'りょ': 'ryo',
+        'ぎゃ': 'gya', 'ぎゅ': 'gyu', 'ぎょ': 'gyo',
+        'じゃ': 'ja', 'じゅ': 'ju', 'じょ': 'jo',
+        'びゃ': 'bya', 'びゅ': 'byu', 'びょ': 'byo',
+        'ぴゃ': 'pya', 'ぴゅ': 'pyu', 'ぴょ': 'pyo',
+        'っ': '(pause)'
+      };
+
+      let result = '';
+      let i = 0;
+      while (i < hiragana.length) {
+        // Check for two-character combinations first
+        if (i + 1 < hiragana.length) {
+          const twoChar = hiragana.substr(i, 2);
+          if (romajiMap[twoChar]) {
+            result += romajiMap[twoChar];
+            i += 2;
+            continue;
+          }
+        }
+        
+        // Single character
+        const oneChar = hiragana[i];
+        result += romajiMap[oneChar] || oneChar;
+        i++;
+      }
+      
+      return result;
+    }
+
     const verbs = [
       { no: 1, verb: "ある", reading: "ある", meaning: "to exist (inanimate)", group: "1", jp: "机の上に本がある。", en: "There is a book on the desk." },
       { no: 2, verb: "いる", reading: "いる", meaning: "to exist (animate)", group: "2", jp: "教室に学生がいる。", en: "There are students in the classroom." },
@@ -203,11 +267,15 @@
     function renderTable(data) {
       tbody.innerHTML = "";
       data.forEach(v => {
+        const romaji = toRomaji(v.reading);
         const row = `
           <tr>
             <td>${v.no}</td>
             <td>${v.verb}</td>
-            <td>${v.reading}</td>
+            <td class="reading-container">
+              ${v.reading}<br>
+              <span class="romaji">${romaji}</span>
+            </td>
             <td>${v.meaning}</td>
             <td>${v.group}</td>
             <td>${v.jp}</td>
@@ -223,6 +291,7 @@
       const filtered = verbs.filter(v =>
         v.verb.includes(keyword) ||
         v.reading.includes(keyword) ||
+        toRomaji(v.reading).toLowerCase().includes(keyword) ||
         v.meaning.toLowerCase().includes(keyword) ||
         v.jp.includes(keyword) ||
         v.en.toLowerCase().includes(keyword)

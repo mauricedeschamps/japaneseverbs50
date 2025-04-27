@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Japanese Verbs N5 List</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' stroke='red' stroke-width='5' fill='white'/></svg>">
+  <style>
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #333333;
+      --header-bg: #f0f0f0;
+      --border-color: #aaaaaa;
+      --button-bg: #4a4a4a;
+      --button-text: #ffffff;
+      --footer-bg: #f0f0f0;
+    }
+
+    .dark-mode {
+      --bg-color: #1a1a1a;
+      --text-color: #f0f0f0;
+      --header-bg: #2a2a2a;
+      --border-color: #555555;
+      --button-bg: #f0f0f0;
+      --button-text: #333333;
+      --footer-bg: #2a2a2a;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    input {
+      margin-bottom: 15px;
+      padding: 8px;
+      width: 100%;
+      font-size: 16px;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      border: 1px solid var(--border-color);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      border: 1px solid var(--border-color);
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: var(--header-bg);
+    }
+
+    button {
+      padding: 8px 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+
+    .mode-toggle {
+      background-color: var(--button-bg);
+      color: var(--button-text);
+      margin-bottom: 15px;
+    }
+
+    .back-to-top {
+      display: block;
+      margin: 20px auto;
+      background-color: var(--button-bg);
+      color: var(--button-text);
+    }
+
+    footer {
+      margin-top: 40px;
+      padding: 20px;
+      text-align: center;
+      background-color: var(--footer-bg);
+      border-top: 1px solid var(--border-color);
+    }
+
+    .icon-display {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+    }
+
+    .icon {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background-color: white;
+      border: 5px solid red;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <button class="mode-toggle" id="modeToggle">Dark Mode</button>
+  
+  <h1>Japanese Verbs - N5 Level</h1>
+  
+  <div class="icon-display">
+    <div class="icon"></div>
+  </div>
+
+  <input type="text" id="searchInput" placeholder="Search for a verb, meaning, or example..."/>
+
+  <table id="verbTable">
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th>Verb</th>
+        <th>Reading</th>
+        <th>Meaning</th>
+        <th>Group</th>
+        <th>Example (JP)</th>
+        <th>Example (EN)</th>
+      </tr>
+    </thead>
+    <tbody id="verbBody">
+      <!-- Rows will be inserted by JavaScript -->
+    </tbody>
+  </table>
+
+  <button class="back-to-top" id="backToTop">Back to Top</button>
+
+  <footer>
+    <p>Contact: <a href="mailto:mementomorikatsu@gmail.com">mementomorikatsu@gmail.com</a></p>
+  </footer>
+
+  <script>
+    const verbs = [
+      { no: 1, verb: "食べる", reading: "たべる", meaning: "to eat", group: "2", jp: "パンを食べます。", en: "I eat bread." },
+      { no: 2, verb: "行く", reading: "いく", meaning: "to go", group: "1", jp: "学校へ行きます。", en: "I go to school." },
+      { no: 3, verb: "見る", reading: "みる", meaning: "to see", group: "2", jp: "映画を見ます。", en: "I watch a movie." },
+      // ... (add all 50 verbs here)
+      { no: 50, verb: "遊ぶ", reading: "あそぶ", meaning: "to play", group: "1", jp: "公園で遊びます。", en: "I play in the park." }
+    ];
+
+    const tbody = document.getElementById("verbBody");
+    const input = document.getElementById("searchInput");
+    const modeToggle = document.getElementById("modeToggle");
+    const backToTop = document.getElementById("backToTop");
+
+    function renderTable(data) {
+      tbody.innerHTML = "";
+      data.forEach(v => {
+        const row = `
+          <tr>
+            <td>${v.no}</td>
+            <td>${v.verb}</td>
+            <td>${v.reading}</td>
+            <td>${v.meaning}</td>
+            <td>${v.group}</td>
+            <td>${v.jp}</td>
+            <td>${v.en}</td>
+          </tr>
+        `;
+        tbody.innerHTML += row;
+      });
+    }
+
+    input.addEventListener("input", () => {
+      const keyword = input.value.toLowerCase();
+      const filtered = verbs.filter(v =>
+        v.verb.includes(keyword) ||
+        v.reading.includes(keyword) ||
+        v.meaning.toLowerCase().includes(keyword) ||
+        v.jp.includes(keyword) ||
+        v.en.toLowerCase().includes(keyword)
+      );
+      renderTable(filtered);
+    });
+
+    modeToggle.addEventListener("click", () => {
+      document.body.classList.toggle("dark-mode");
+      if (document.body.classList.contains("dark-mode")) {
+        modeToggle.textContent = "Light Mode";
+      } else {
+        modeToggle.textContent = "Dark Mode";
+      }
+    });
+
+    backToTop.addEventListener("click", () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    });
+
+    renderTable(verbs);
+  </script>
+</body>
+</html>

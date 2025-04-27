@@ -3,20 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Japanese Verbs N5 List</title>
+  <title>Japanese Verbs - N5 List</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' stroke='red' stroke-width='5' fill='white'/></svg>">
   <style>
     :root {
-      --bg-color: #ffffff;
-      --text-color: #333333;
-      --header-bg: #f0f0f0;
-      --border-color: #aaaaaa;
-      --button-bg: #4a4a4a;
-      --button-text: #ffffff;
-      --footer-bg: #f0f0f0;
-    }
-
-    .dark-mode {
       --bg-color: #1a1a1a;
       --text-color: #f0f0f0;
       --header-bg: #2a2a2a;
@@ -24,6 +14,16 @@
       --button-bg: #f0f0f0;
       --button-text: #333333;
       --footer-bg: #2a2a2a;
+    }
+
+    .light-mode {
+      --bg-color: #ffffff;
+      --text-color: #333333;
+      --header-bg: #f0f0f0;
+      --border-color: #aaaaaa;
+      --button-bg: #4a4a4a;
+      --button-text: #ffffff;
+      --footer-bg: #f0f0f0;
     }
 
     body {
@@ -107,8 +107,8 @@
     }
   </style>
 </head>
-<body>
-  <button class="mode-toggle" id="modeToggle">Dark Mode</button>
+<body class="dark-mode">
+  <button class="mode-toggle" id="modeToggle">Light Mode</button>
   
   <h1>Japanese Verbs - N5 Level</h1>
   
@@ -143,11 +143,56 @@
 
   <script>
     const verbs = [
-      { no: 1, verb: "食べる", reading: "たべる", meaning: "to eat", group: "2", jp: "パンを食べます。", en: "I eat bread." },
-      { no: 2, verb: "行く", reading: "いく", meaning: "to go", group: "1", jp: "学校へ行きます。", en: "I go to school." },
-      { no: 3, verb: "見る", reading: "みる", meaning: "to see", group: "2", jp: "映画を見ます。", en: "I watch a movie." },
-      // ... (add all 50 verbs here)
-      { no: 50, verb: "遊ぶ", reading: "あそぶ", meaning: "to play", group: "1", jp: "公園で遊びます。", en: "I play in the park." }
+      { no: 1, verb: "ある", reading: "ある", meaning: "to exist (inanimate)", group: "1", jp: "机の上に本がある。", en: "There is a book on the desk." },
+      { no: 2, verb: "いる", reading: "いる", meaning: "to exist (animate)", group: "2", jp: "教室に学生がいる。", en: "There are students in the classroom." },
+      { no: 3, verb: "行く", reading: "いく", meaning: "to go", group: "1", jp: "学校へ行きます。", en: "I go to school." },
+      { no: 4, verb: "来る", reading: "くる", meaning: "to come", group: "3", jp: "日本に来ました。", en: "I came to Japan." },
+      { no: 5, verb: "帰る", reading: "かえる", meaning: "to return", group: "1", jp: "家に帰ります。", en: "I return home." },
+      { no: 6, verb: "食べる", reading: "たべる", meaning: "to eat", group: "2", jp: "朝ご飯を食べます。", en: "I eat breakfast." },
+      { no: 7, verb: "飲む", reading: "のむ", meaning: "to drink", group: "1", jp: "お茶を飲みます。", en: "I drink tea." },
+      { no: 8, verb: "見る", reading: "みる", meaning: "to see, watch", group: "2", jp: "テレビを見ます。", en: "I watch TV." },
+      { no: 9, verb: "聞く", reading: "きく", meaning: "to listen, ask", group: "1", jp: "音楽を聞きます。", en: "I listen to music." },
+      { no: 10, verb: "読む", reading: "よむ", meaning: "to read", group: "1", jp: "新聞を読みます。", en: "I read the newspaper." },
+      { no: 11, verb: "書く", reading: "かく", meaning: "to write", group: "1", jp: "手紙を書きます。", en: "I write a letter." },
+      { no: 12, verb: "話す", reading: "はなす", meaning: "to speak", group: "1", jp: "日本語を話します。", en: "I speak Japanese." },
+      { no: 13, verb: "買う", reading: "かう", meaning: "to buy", group: "1", jp: "本を買います。", en: "I buy a book." },
+      { no: 14, verb: "売る", reading: "うる", meaning: "to sell", group: "1", jp: "車を売ります。", en: "I sell a car." },
+      { no: 15, verb: "作る", reading: "つくる", meaning: "to make", group: "1", jp: "料理を作ります。", en: "I cook (make food)." },
+      { no: 16, verb: "会う", reading: "あう", meaning: "to meet", group: "1", jp: "友達に会います。", en: "I meet my friend." },
+      { no: 17, verb: "知る", reading: "しる", meaning: "to know", group: "1", jp: "その人を知っています。", en: "I know that person." },
+      { no: 18, verb: "分かる", reading: "わかる", meaning: "to understand", group: "1", jp: "日本語が分かります。", en: "I understand Japanese." },
+      { no: 19, verb: "思う", reading: "おもう", meaning: "to think", group: "1", jp: "そう思います。", en: "I think so." },
+      { no: 20, verb: "待つ", reading: "まつ", meaning: "to wait", group: "1", jp: "バスを待ちます。", en: "I wait for the bus." },
+      { no: 21, verb: "働く", reading: "はたらく", meaning: "to work", group: "1", jp: "会社で働きます。", en: "I work at a company." },
+      { no: 22, verb: "休む", reading: "やすむ", meaning: "to rest", group: "1", jp: "日曜日に休みます。", en: "I rest on Sundays." },
+      { no: 23, verb: "寝る", reading: "ねる", meaning: "to sleep", group: "2", jp: "早く寝ます。", en: "I sleep early." },
+      { no: 24, verb: "起きる", reading: "おきる", meaning: "to wake up", group: "2", jp: "7時に起きます。", en: "I wake up at 7." },
+      { no: 25, verb: "勉強する", reading: "べんきょうする", meaning: "to study", group: "3", jp: "日本語を勉強します。", en: "I study Japanese." },
+      { no: 26, verb: "教える", reading: "おしえる", meaning: "to teach", group: "2", jp: "英語を教えます。", en: "I teach English." },
+      { no: 27, verb: "習う", reading: "ならう", meaning: "to learn", group: "1", jp: "ピアノを習います。", en: "I learn piano." },
+      { no: 28, verb: "使う", reading: "つかう", meaning: "to use", group: "1", jp: "パソコンを使います。", en: "I use a computer." },
+      { no: 29, verb: "開ける", reading: "あける", meaning: "to open", group: "2", jp: "窓を開けます。", en: "I open the window." },
+      { no: 30, verb: "閉める", reading: "しめる", meaning: "to close", group: "2", jp: "ドアを閉めます。", en: "I close the door." },
+      { no: 31, verb: "始まる", reading: "はじまる", meaning: "to begin", group: "1", jp: "授業が始まります。", en: "Class begins." },
+      { no: 32, verb: "終わる", reading: "おわる", meaning: "to finish", group: "1", jp: "仕事が終わります。", en: "Work finishes." },
+      { no: 33, verb: "遊ぶ", reading: "あそぶ", meaning: "to play", group: "1", jp: "公園で遊びます。", en: "I play in the park." },
+      { no: 34, verb: "泳ぐ", reading: "およぐ", meaning: "to swim", group: "1", jp: "プールで泳ぎます。", en: "I swim in the pool." },
+      { no: 35, verb: "乗る", reading: "のる", meaning: "to ride", group: "1", jp: "電車に乗ります。", en: "I ride the train." },
+      { no: 36, verb: "降りる", reading: "おりる", meaning: "to get off", group: "2", jp: "次の駅で降ります。", en: "I get off at the next station." },
+      { no: 37, verb: "着く", reading: "つく", meaning: "to arrive", group: "1", jp: "家に着きました。", en: "I arrived home." },
+      { no: 38, verb: "立つ", reading: "たつ", meaning: "to stand", group: "1", jp: "ここに立ってください。", en: "Please stand here." },
+      { no: 39, verb: "座る", reading: "すわる", meaning: "to sit", group: "1", jp: "椅子に座ります。", en: "I sit on the chair." },
+      { no: 40, verb: "歩く", reading: "あるく", meaning: "to walk", group: "1", jp: "駅まで歩きます。", en: "I walk to the station." },
+      { no: 41, verb: "走る", reading: "はしる", meaning: "to run", group: "1", jp: "毎朝走ります。", en: "I run every morning." },
+      { no: 42, verb: "入る", reading: "はいる", meaning: "to enter", group: "1", jp: "部屋に入ります。", en: "I enter the room." },
+      { no: 43, verb: "出る", reading: "でる", meaning: "to exit", group: "2", jp: "家を出ます。", en: "I leave the house." },
+      { no: 44, verb: "切る", reading: "きる", meaning: "to cut", group: "1", jp: "紙を切ります。", en: "I cut paper." },
+      { no: 45, verb: "消す", reading: "けす", meaning: "to turn off", group: "1", jp: "電気を消します。", en: "I turn off the light." },
+      { no: 46, verb: "点ける", reading: "つける", meaning: "to turn on", group: "2", jp: "テレビをつけます。", en: "I turn on the TV." },
+      { no: 47, verb: "洗う", reading: "あらう", meaning: "to wash", group: "1", jp: "手を洗います。", en: "I wash my hands." },
+      { no: 48, verb: "掃除する", reading: "そうじする", meaning: "to clean", group: "3", jp: "部屋を掃除します。", en: "I clean the room." },
+      { no: 49, verb: "料理する", reading: "りょうりする", meaning: "to cook", group: "3", jp: "晩ご飯を料理します。", en: "I cook dinner." },
+      { no: 50, verb: "電話する", reading: "でんわする", meaning: "to call", group: "3", jp: "母に電話します。", en: "I call my mother." }
     ];
 
     const tbody = document.getElementById("verbBody");
@@ -185,12 +230,16 @@
       renderTable(filtered);
     });
 
+    // Initialize dark mode by default
+    document.body.classList.add("dark-mode");
+    modeToggle.textContent = "Light Mode";
+
     modeToggle.addEventListener("click", () => {
-      document.body.classList.toggle("dark-mode");
-      if (document.body.classList.contains("dark-mode")) {
-        modeToggle.textContent = "Light Mode";
-      } else {
+      document.body.classList.toggle("light-mode");
+      if (document.body.classList.contains("light-mode")) {
         modeToggle.textContent = "Dark Mode";
+      } else {
+        modeToggle.textContent = "Light Mode";
       }
     });
 
